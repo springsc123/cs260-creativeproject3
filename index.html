@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css" />
+  <title>XKCD Browser</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
+    <a class="navbar-brand" href="index.html">
+      <i class="fa fa-wheelchair-alt"></i>
+      &nbsp;&nbsp;&nbsp;XKCD Browser
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    </div>
+  </nav>
+
+  <div class="pad">
+    <h1>XKCD Browser</h1>
+
+    <div id="app">
+
+      <div v-if="loading">
+        <p>Loading...</p>
+      </div>
+
+      <div v-else>
+        <p>
+          <button v-on:click="previousComic">Previous</button>
+          <button v-on:click="nextComic">Next</button>
+          <button v-on:click="randomComic">Random</button>
+          <button v-on:click="firstComic">First</button>
+          <button v-on:click="lastComic">Last</button>
+        </p>
+
+        <h2>{{current.title}}</h2>
+        <img v-bind:src="current.img" v-bind:alt="current.alt">
+        <p>{{current.alt}}</p>
+        <p><i>#{{current.num}}, drawn on {{current.day}} {{month}} {{current.year}}</i></p>
+
+        <star-rating 
+          @rating-selected="setRating" 
+          v-bind:increment="0.5" 
+          inactive-color="#FFB6C1" 
+          active-color="#DC143C"
+          v-bind:show-rating="false">
+        </star-rating>
+        
+        <p>Average Rating: {{avg}}</p>
+
+        <h3>Add a Comment</h3>
+        <form v-on:submit.prevent="addComment">
+          <input v-model="addedName" placeholder="Name"></p>
+          <textarea v-model="addedComment"></textarea>
+          <br />
+          <button type="submit">Comment</button>
+        </form>
+        <h3>Comments</h3>
+        <div v-for="comment in comments[number]">
+          <hr>
+          <p>{{comment.text}}</p>
+          <p><i>-- {{comment.author}}, {{comment.date}}, {{comment.time}}</i></p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <div class="footer">
+    <div color="white">Created by Spring &nbsp; &nbsp;&nbsp;
+      <i class="fa fa-github" style="color:yellow; height: 20px;"></i>
+      <a href="https://github.com/BYUCS260/lab-3-vue-springsc123" class="yellow">
+      Check out my Github</a></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.2/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
+  <script src="moment.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
